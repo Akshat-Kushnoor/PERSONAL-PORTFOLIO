@@ -1,5 +1,6 @@
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import ParticlesBG from "./components/ParticlesBG";
 import About from './sections/About';
 import Contact from './sections/Contact';
 import Home from './sections/Home';
@@ -8,7 +9,9 @@ import Skills from './sections/Skills';
 
 function App() {
   return (
-    <div>
+    
+    <div className="relative gradient text-black">
+      <ParticlesBG/>
       <Navbar />
       <Home/>
       <About/>
@@ -17,9 +20,8 @@ function App() {
       <Contact/>
       <Footer/>
 
-
     </div>
   );
 }
 
-export default App
+export default App;
