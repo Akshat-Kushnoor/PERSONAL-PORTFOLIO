@@ -1,17 +1,22 @@
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-import ParticlesBG from "./components/ParticlesBG";
-import About from './sections/About';
-import Contact from './sections/Contact';
-import Home from './sections/Home';
-import Projects from './sections/Projects';
-import Skills from './sections/Skills';
+import React from 'react';
+import About from './sections/About.jsx';
+import Contact from './sections/Contact.jsx';
+import Home from './sections/Home.jsx';
+import Projects from './sections/Projects.jsx';
+import Skills from './sections/Skills.jsx';
+
+import Navbar from './components/Navbar.jsx';
+import ParticlesBG from './components/ParticlesBG.jsx';
+import CustomCursor from './components/CustomCursor.jsx';
+import Footer from './components/Footer.jsx';   
+import OverlayMenu from './components/OverlayMenu.jsx';
 
 function App() {
   return (
-    
-    <div className="relative gradient text-black">
+     <div className="relative gradient text-black">
+
       <ParticlesBG/>
+      <CustomCursor/>
       <Navbar />
       <Home/>
       <About/>

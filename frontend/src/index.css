@@ -1,15 +1,19 @@
-@import "tailwindcss";
+@import 'Tailwindcss';
 
-body{
-    font-family: "poppins", sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
 }
 
-h1,h2,h3{
-    font-family: "Orbitron" , sans-serif;
+h1, h2, h3 {
+  font-family: "Orbitron", sans-serif;
 }
 
 @layer utilities {
-    .gradient{
-        background: linear-gradient(-145deg , rgb(154, 228, 228),rgb(70, 149, 180),rgb(111, 117, 202))
-    }
+  .gradient {
+    background: linear-gradient(-145deg, rgb(5, 20, 52), rgb(0, 0, 0));
+  }
 }
+
+@layer components {}
+
+@layer utilities {}
