@@ -6,7 +6,7 @@ import Projects from './sections/Projects.jsx';
 import Skills from './sections/Skills.jsx';
 
 import Navbar from './components/Navbar.jsx';
-import ParticlesBG from './components/ParticlesBG.jsx';
+
 import CustomCursor from './components/CustomCursor.jsx';
 import Footer from './components/Footer.jsx';   
 
@@ -15,7 +15,7 @@ function App() {
   return (
      <div className="relative gradient text-black">
 
-      <ParticlesBG/>
+     
       <CustomCursor/>
       <Navbar />
       <Home/>

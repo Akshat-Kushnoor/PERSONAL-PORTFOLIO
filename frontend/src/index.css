@@ -8,9 +8,25 @@ h1, h2, h3 {
   font-family: "Orbitron", sans-serif;
 }
 
+/* global or component CSS */
+.spline-wrapper {
+  position: fixed;      /* or absolute inside a container */
+  inset: 0;             /* top:0; right:0; bottom:0; left:0; */
+  z-index: 0;
+  pointer-events: auto; /* set none if you want clicks to pass through */
+}
+
+.content {
+  position: relative;
+  z-index: 10;          /* higher than spline so it sits on top */
+  padding: 2rem;
+  color: white;
+}
+
+
 @layer utilities {
   .gradient {
-    background: linear-gradient(-145deg, rgb(5, 20, 52), rgb(0, 0, 0));
+    background: linear-gradient(-145deg, rgb(0, 0, 0), rgb(35, 53, 73));
   }
 }
 

@@ -16,7 +16,7 @@ const OverlayMenu = ({ isOpen, onClose }) => {
                     initial={{ clipPath: `circle(0% at ${origin})` }}
                     animate={{clipPath: `circle(150% at ${origin})`  }}
                     exit={{ clipPath: `circle(0% at ${origin})` }}
-                    transition={{duration:2.5 , ease: [0.4,0,0.2,1]}}
+                    transition={{duration:2 , ease: [0.4,0,0.2,1]}}
                 >
                     <button
                         onClick={onClose}
@@ -25,6 +25,7 @@ const OverlayMenu = ({ isOpen, onClose }) => {
                     >
                         <RiCloseLine />
                     </button>
+                    
 
                     <ul className="space-y-6 text-center text-white text-2xl"
                      style={{fontFamily: 'Shadows Into Light Two'}}>
