@@ -9,7 +9,7 @@ import Navbar from './components/Navbar.jsx';
 import ParticlesBG from './components/ParticlesBG.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import Footer from './components/Footer.jsx';   
-import OverlayMenu from './components/OverlayMenu.jsx';
+
 
 function App() {
   return (
