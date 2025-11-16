@@ -8,7 +8,7 @@ const ParticlesBG = () => {
     const ctx = canvas.getContext("2d");
     const particles = [];
     const particleCount = 80;
-    const colors = ["red"]; // blue-cyan theme 💧
+    const colors = ["cyan","red"]; 
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -80,7 +80,7 @@ const ParticlesBG = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+      className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
     />
   );
 };

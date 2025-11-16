@@ -1,6 +1,7 @@
-import profilePic from "../assets/profile.png";
+
 import ParticlesBG from "../components/ParticlesBG.jsx";
 import SplineScene from "../components/SplineScene";
+import IntroAnimation from "../components/IntroAnimation.jsx";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
@@ -19,6 +20,7 @@ const letter = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
 };
+
 
 const Home = () => {
   // 🔥 ADD YOUR JOB ROLES HERE
@@ -59,10 +61,12 @@ const Home = () => {
 
   return (
     <section
+
       id="home"
       className="relative w-screen h-screen overflow-hidden flex items-center justify-center"
     >
       <div className="absolute inset-0 z-0">
+        <IntroAnimation></IntroAnimation>
         <ParticlesBG />
       </div>
 
@@ -71,17 +75,12 @@ const Home = () => {
 
       <div className="relative z-20 w-full lg:w-1/2 px-8 text-left">
         <div className="m-20 items-center justify-center space-y-4">
-          <img
-            src={profilePic}
-            alt="Profile Pic"
-            className="rounded-full w-50 h-70"
-          ></img>
+          
 
           <h1 className="text-4xl font-bold">Akshat Kushnoor</h1>
 
-          {/* 🔥 FIXED TYPEWRITER EFFECT */}
           <motion.h3
-            className="text-2xl font-bold flex"
+            className="text-2xl text-cyan-200 font-bold flex"
             variants={typewriter}
             initial="hidden"
             animate="visible"
@@ -92,11 +91,10 @@ const Home = () => {
               </motion.span>
             ))}
 
-            {/* Blinking cursor */}
             <motion.span
               className="ml-1"
               animate={{ opacity: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 0.8 }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
             >
               |
             </motion.span>
