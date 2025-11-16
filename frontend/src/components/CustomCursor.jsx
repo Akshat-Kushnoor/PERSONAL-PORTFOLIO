@@ -4,7 +4,7 @@ const CustomCursor = () => {
   const mouse = useRef({ x: 0, y: 0 });
   const [pos, setPos] = useState({ x: -100, y: -100 });
   const rafRef = useRef(null);
-  const ease = 0.18;
+  const ease = 0.5;
 
   useEffect(() => {
     const handleMove = (e) => {
@@ -36,7 +36,7 @@ const CustomCursor = () => {
     };
   }, []);
 
-  const outer = 48; // w-12 h-12
+  const outer = 48; 
   const offset = outer / 2;
 
   return (
@@ -48,9 +48,9 @@ const CustomCursor = () => {
         willChange: "transform, opacity",
       }}
     >
-      {/* Outer ring (transparent) */}
+
+
       <div className="w-12 h-12 rounded-full flex items-center justify-center">
-        {/* Inner circle with centered radial gradient */}
         <div
           className="w-10 h-10 rounded-full shadow-md opacity-50"
           style={{

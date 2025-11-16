@@ -1,5 +1,5 @@
-import profilePic from "../assets/profile.png";
 import { motion } from "framer-motion";
+import profilePic from "../assets/profile.png";
 
 const About = () => {
     const stats = [
@@ -23,21 +23,21 @@ const About = () => {
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 1 }}
                     viewport={{ once: true, amount: 0.3 }}
                     className="flex justify-center"
                 >
                     <img
                         src={profilePic}
                         alt="Profile Pic"
-                        className="rounded-4xl w-[260px] h-[330px] object-cover shadow-xl"
+                        className="rounded-4xl w-[260px] h-[330px] object-cover shadow-4xl shadow-cyan-300 hover:transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-110 duration-300"
                     />
                 </motion.div>
 
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 1 }}
                     viewport={{ once: true, amount: 0.3 }}
                     className="max-w-xl"
                 >
@@ -53,7 +53,7 @@ const About = () => {
                         I love transforming concepts into functional, impactful products through code.
                     </p>
 
-                    {/* Stats */}
+                    
                     <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {stats.map((stat, i) => (
                             <motion.div
