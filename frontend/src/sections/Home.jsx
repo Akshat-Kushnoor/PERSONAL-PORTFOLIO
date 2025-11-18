@@ -1,11 +1,10 @@
 
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import IntroAnimation from "../components/IntroAnimation.jsx";
 import ParticlesBG from "../components/ParticlesBG.jsx";
 import SplineScene from "../components/SplineScene";
-import IntroAnimation from "../components/IntroAnimation.jsx";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 
-// Typewriter animation variants
 const typewriter = {
   hidden: { opacity: 1 },
   visible: {
@@ -23,7 +22,7 @@ const letter = {
 
 
 const Home = () => {
-  // 🔥 ADD YOUR JOB ROLES HERE
+
   const roles = [
     "Full Stack Developer",
     "UI/UX Designer",
@@ -33,7 +32,6 @@ const Home = () => {
   const [index, setIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
 
-  // ✅ FIXED TYPEWRITER (spaces included properly)
   useEffect(() => {
     let i = 0;
     const current = roles[index];
@@ -60,55 +58,67 @@ const Home = () => {
   }, [index]);
 
   return (
-    <section
+  <section
+    id="home"
+    className="relative w-screen h-screen overflow-hidden grid grid-cols-1 lg:grid-cols-9"
+  >
+    <div className="absolute inset-0 z-0">
+      <IntroAnimation />
+      <ParticlesBG />
+    </div>
 
-      id="home"
-      className="relative w-screen h-screen overflow-hidden flex items-center justify-center"
-    >
-      <div className="absolute inset-0 z-0">
-        <IntroAnimation></IntroAnimation>
-        <ParticlesBG />
-      </div>
+    <div className="col-span-1 lg:col-span-4 relative flex items-center justify-center z-20 px-8">
+      <div className="m-10 items-right space-y-4">
+        <h3
+          className="text-2xl text-cyan-200 font-bold"
+          style={{ fontFamily: "Macondo" }}
+        >
+          Hi, i'm
+        </h3>
 
-      <div className="absolute top-10 right-10 w-24 h-24 rounded-full bg-blue-400 opacity-60 blur-xl animate-pulse"></div>
-      <div className="absolute bottom-10 left-10 w-32 h-32 rounded-full bg-purple-500 opacity-60 blur-2xl animate-pulse"></div>
+        <h1
+          className="text-4xl text-white font-bold mt-4"
+          style={{ fontFamily: "Orbitron" }}
+        >
+          Akshat Kushnoor
+        </h1>
 
-      <div className="relative z-20 w-full lg:w-1/2 px-8 text-left">
-        <div className="m-20 items-center justify-center space-y-4">
-          
-
-          <h1 className="text-4xl font-bold">Akshat Kushnoor</h1>
-
-          <motion.h3
-            className="text-2xl text-cyan-200 font-bold flex"
-            variants={typewriter}
-            initial="hidden"
-            animate="visible"
-          >
-            {displayedText.split("").map((char, i) => (
-              <motion.span key={i} variants={letter}>
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-
-            <motion.span
-              className="ml-1"
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
-              |
+        <motion.h3
+          className="text-2xl text-cyan-200 font-bold flex m-4"
+          variants={typewriter}
+          initial="hidden"
+          animate="visible"
+        >
+          {displayedText.split("").map((char, i) => (
+            <motion.span key={i} variants={letter}>
+              {char === " " ? "\u00A0" : char}
             </motion.span>
-          </motion.h3>
+          ))}
 
-          <p className="text-lg">Your description goes here...</p>
-        </div>
-      </div>
+          <motion.span
+            className="ml-1"
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+          >
+            |
+          </motion.span>
+        </motion.h3>
 
-      <div className="hidden lg:flex w-1/2 h-full items-center justify-center relative z-10">
-        <SplineScene />
+        <p className="text-lg text-white/40 mt-10">I’m someone with big dreams and a passion for creating meaningful things. I love collaborating, learning from others, and pushing myself to grow. Excited to work together this year.</p>
       </div>
-    </section>
+    </div>
+
+    
+    <div className="hidden lg:flex col-span-1 lg:col-span-5 items-center justify-right relative overflow-hidden z-10">
+      <SplineScene />
+    </div>
+
+    
+    <div className="absolute top-10 right-10 w-24 h-24 rounded-full bg-blue-400 opacity-60 blur-xl animate-pulse"></div>
+    <div className="absolute bottom-10 left-10 w-32 h-32 rounded-full bg-purple-500 opacity-60 blur-2xl animate-pulse"></div>
+  </section>
   );
+
 };
 
 export default Home;

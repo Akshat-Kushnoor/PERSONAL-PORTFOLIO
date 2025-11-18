@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import profilePic from "../assets/profile.png";
+import { motion } from "framer-motion";
 
 const About = () => {
     const stats = [
@@ -24,13 +24,12 @@ const About = () => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1 }}
-                    viewport={{ once: true, amount: 0.3 }}
                     className="flex justify-center"
                 >
                     <img
                         src={profilePic}
                         alt="Profile Pic"
-                        className="rounded-4xl w-[260px] h-[330px] object-cover shadow-4xl shadow-cyan-300 hover:transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-110 duration-300"
+                        className="rounded-4xl w-[260px] h-[330px] object-cover shadow-4xl"
                     />
                 </motion.div>
 
@@ -38,7 +37,6 @@ const About = () => {
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1 }}
-                    viewport={{ once: true, amount: 0.3 }}
                     className="max-w-xl"
                 >
                     <h2 className="text-3xl font-bold mb-4"
@@ -70,7 +68,7 @@ const About = () => {
                         ))}
                     </div>
 
-                    {/* Buttons */}
+                    
                     <div className="flex gap-4 items-center justify-center mt-6">
                         <a
                             href="#projects"

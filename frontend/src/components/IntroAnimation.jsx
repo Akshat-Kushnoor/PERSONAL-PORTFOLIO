@@ -4,17 +4,15 @@ const IntroAnimation = ({ onFinish }) => {
   const greetings = useMemo(
     () => [
       "Hello",
-      "Halo",
       "Ciao",
-      "Hallo",
       "こんにちは",
+      "Hallo",
       "안녕하세요",
-      "你好",
       "नमस्ते",
       "مرحبا",
-      "হ্যালো",
       "Olá",
       "Здравствуйте",
+      "Halo",
       "Bonjour"
     ],
     []
@@ -31,11 +29,11 @@ const IntroAnimation = ({ onFinish }) => {
 
     switch (phase) {
       case "fadeIn":
-        timer = setTimeout(() => setPhase("hold"), 200);
+        timer = setTimeout(() => setPhase("hold"), 150);
         break;
 
       case "hold":
-        timer = setTimeout(() => setPhase("fadeOut"), 200);
+        timer = setTimeout(() => setPhase("fadeOut"), 150);
         break;
 
       case "fadeOut":
@@ -48,9 +46,9 @@ const IntroAnimation = ({ onFinish }) => {
 
             setTimeout(() => {
               if (onFinish) onFinish();
-            }, 200);
+            }, 150);
           }
-        }, 200);
+        }, 150);
         break;
     }
 
