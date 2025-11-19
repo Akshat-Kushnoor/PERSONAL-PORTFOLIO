@@ -32,6 +32,7 @@ const Home = () => {
   const [index, setIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
 
+  
   useEffect(() => {
     let i = 0;
     const current = roles[index];
@@ -62,12 +63,12 @@ const Home = () => {
     id="home"
     className="relative w-screen h-screen overflow-hidden grid grid-cols-1 lg:grid-cols-9"
   >
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0 pointer-events-none">
       <IntroAnimation />
       <ParticlesBG />
     </div>
 
-    <div className="col-span-1 lg:col-span-4 relative flex items-center justify-center z-20 px-8">
+    <div className="col-span-1 lg:col-span-4 relative w-full h-full flex items-center justify-center z-20 px-8">
       <div className="m-10 items-right space-y-4">
         <h3
           className="text-2xl text-cyan-200 font-bold"
