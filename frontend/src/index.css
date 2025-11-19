@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   font-family: "Poppins", sans-serif;
@@ -10,19 +12,18 @@ h1, h2, h3 {
 
 /* global or component CSS */
 .spline-wrapper {
-  position: fixed;      
-  inset: 0;            
+  position: fixed;
+  inset: 0;
   z-index: 0;
   pointer-events: auto;
 }
 
 .content {
   position: relative;
-  z-index: 10;          
+  z-index: 10;
   padding: 2rem;
   color: white;
 }
-
 
 @layer utilities {
   .gradient {
@@ -31,5 +32,3 @@ h1, h2, h3 {
 }
 
 @layer components {}
-
-@layer utilities {}
