@@ -1,12 +1,6 @@
 @import "tailwindcss";
 
 
-html {
-    transform: scale(1.25);
-    transform-origin: top left;
-    width: 80%; /* prevent overflow due to scaling */
-}
-
 
 body {
   font-family: "Poppins", sans-serif;
