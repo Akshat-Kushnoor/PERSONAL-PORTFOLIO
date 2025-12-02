@@ -69,7 +69,7 @@ const Home = () => {
     </div>
 
     <div className="col-span-1 lg:col-span-4 relative w-full h-full flex items-center justify-center z-20 px-8">
-      <div className="m-10 items-right space-y-4">
+      <div className="m-10 ml-20 items-right space-y-4">
         <h3
           className="text-2xl text-cyan-200 font-bold"
           style={{ fontFamily: "Macondo" }}
