@@ -3,13 +3,13 @@
 <!-- ====================================== -->
 
 <h1 align="center">
-  <span style="color:#00e5ff;">⚡ Akshat A Kushnoor</span>
+   <span style="color:#00e5ff;">Akshat A Kushnoor</span>
 </h1>
 
 <p align="center">
   <span style="color:#4fc3f7;">MERN Stack Developer</span> •
   <span style="color:#00bcd4;">Full-Stack Engineer</span> •
-  <span style="color:#2196f3;">Modern Web Enthusiast</span>
+  <span style="color:#2196f3;">Modern Web Developer</span>
 </p>
 
 <p align="center">
@@ -23,15 +23,7 @@
 ## 🧑‍💻 About Me
 
 ```txt
-Hi, I'm Akshat A Kushnoor 👋
-I am a MERN Stack Developer who enjoys building modern, scalable,
-and user-focused web applications. I focus on clean architecture,
-performance optimization, and elegant UI/UX design.
-
-
-
-Primary Background : #0a0a0a (Black)
-Accent Color       : #00e5ff (Cyan)
-Secondary Color    : #2196f3 (Blue)
-
-
+Hi, I'm Akshat A Kushnoor.
+A MERN Stack Developer passionate about building scalable,
+high-performance, and user-focused web applications.
+I enjoy clean architecture, modern UI/UX, and backend optimization.
