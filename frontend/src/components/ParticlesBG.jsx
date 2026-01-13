@@ -8,7 +8,7 @@ const ParticlesBG = () => {
     const ctx = canvas.getContext("2d");
     const particles = [];
     const particleCount = 80;
-    const colors = ["cyan","red"]; 
+    const colors = ["cyan"]; 
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -19,8 +19,8 @@ const ParticlesBG = () => {
         this.y = Math.random() * canvas.height;
         this.radius = Math.random() * 2 + 1;
         this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.speedX = (Math.random() - 0.5) * 1.5;
-        this.speedY = (Math.random() - 0.5) * 1.5;
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.speedY = (Math.random() - 0.5) * 1;
       }
 
       draw() {

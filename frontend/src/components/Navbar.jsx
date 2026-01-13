@@ -58,14 +58,8 @@ const Navbar = () => {
       >
         <div className="flex items-center space-x-2 w-full">
 
-          {/* Reach Out Button */}
-          <div className="fixed top-0 right-0 lg:block">
-            <a className="bg-gradient-to-r from-pink-300 to-blue-400 text-white text-lg p-2 rounded-full">
-              Reach Out
-            </a>
-          </div>
 
-          {/* Menu Button */}
+         
           <div className="block lg:absolute left-0 ml-5 transform -translate-x-1/2">
             <button
               onClick={() => setMenuOpen(true)}
