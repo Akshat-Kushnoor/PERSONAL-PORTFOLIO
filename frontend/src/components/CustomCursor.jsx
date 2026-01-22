@@ -1,66 +1,64 @@
 import { useEffect, useRef, useState } from "react";
 
-const CustomCursor = () => {
+export default function CustomCursor() {
+  const cursorRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const rafRef = useRef(null);
-  const ease = 0.5;
+  const pos = useRef({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    const handleMove = (e) => {
+    const move = (e) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
+
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      setHovered(
+        el?.closest("a, button, [data-cursor]") ? true : false
+      );
     };
 
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("touchmove", handleMove, { passive: true });
+    window.addEventListener("mousemove", move);
 
-    const tick = () => {
-      setPos((prev) => {
-        const dx = mouse.current.x - prev.x;
-        const dy = mouse.current.y - prev.y;
-        return {
-          x: prev.x + dx * ease,
-          y: prev.y + dy * ease,
-        };
-      });
-      rafRef.current = requestAnimationFrame(tick);
+    const animate = () => {
+      pos.current.x += (mouse.current.x - pos.current.x) * 0.2;
+      pos.current.y += (mouse.current.y - pos.current.y) * 0.2;
+
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `
+          translate3d(
+            ${pos.current.x}px,
+            ${pos.current.y}px,
+            0
+          )
+        `;
+      }
+
+      requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    animate();
 
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("touchmove", handleMove);
-      cancelAnimationFrame(rafRef.current);
-    };
+    return () => window.removeEventListener("mousemove", move);
   }, []);
-
-  const outer = 48; 
-  const offset = outer / 2;
 
   return (
     <div
-      aria-hidden="true"
-      className="pointer-events-none fixed top-0 left-0 z-[9999]"
+      ref={cursorRef}
+      aria-hidden
       style={{
-        transform: `translate(${pos.x - offset}px, ${pos.y - offset}px)`,
-        willChange: "transform, opacity",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: hovered ? 48 : 32,
+        height: hovered ? 48 : 32,
+        borderRadius: "50%",
+        backgroundColor: "white",
+        pointerEvents: "none",
+        mixBlendMode: "difference",
+        transform: "translate(-100px, -100px)",
+        transition: "width 0.2s ease, height 0.2s ease",
+        zIndex: 999999,
       }}
-    >
-
-
-      <div className="w-12 h-12 rounded-full flex items-center justify-center">
-        <div
-          className="w-10 h-10 rounded-full shadow-md opacity-50"
-          style={{
-            background:
-              "radial-gradient(circle at center, rgb(13, 66, 181) 0%, rgb(70, 149, 180)60%)",
-          }}
-        />
-      </div>
-    </div>
+    />
   );
-};
-
-export default CustomCursor;
+}
