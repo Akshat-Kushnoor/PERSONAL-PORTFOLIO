@@ -33,11 +33,11 @@ const Logo = () => {
     --dim: #008f8f;
     --white: #ffffff;
 
-    --pixel: clamp(16px, 3vw, 28px);
-    --gap: clamp(2px, 0.5vw, 4px);
+    --pixel: clamp(10px, 2.5vw, 24px);
+    --gap: clamp(1px, 0.4vw, 3px);
 
-    --ring-size: clamp(220px, 40vw, 340px);
-    --logo-size: clamp(200px, 45vw, 320px);
+    --ring-size: min(85vw, 85vh, 340px);
+    --logo-size: min(75vw, 75vh, 320px);
   }
 
   * { box-sizing: border-box; }
@@ -51,10 +51,9 @@ const Logo = () => {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: clamp(40px, 8vw, 120px); /* ✅ CRITICAL */
+    padding: min(4vw, 20px);
     position: relative;
   }
-
 
   /* Scanlines */
   .ak-wrapper::after {
@@ -74,16 +73,20 @@ const Logo = () => {
   .logo-shell {
     width: var(--logo-size);
     height: var(--logo-size);
+    min-width: 180px;
+    min-height: 180px;
+    max-width: 320px;
+    max-height: 320px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: calc(var(--pixel) * 1.2);
+    gap: max(8px, calc(var(--pixel) * 1.2));
     background: radial-gradient(circle, rgba(0,255,255,0.08), #000 70%);
-    border: 2px solid rgba(0,255,255,0.3);
+    border: 1px solid rgba(0,255,255,0.3);
     box-shadow:
-      0 0 30px rgba(0,255,255,0.25),
-      inset 0 0 40px rgba(0,255,255,0.08);
+      0 0 20px rgba(0,255,255,0.2),
+      inset 0 0 30px rgba(0,255,255,0.08);
 
     animation: signalLock 1.4s cubic-bezier(.2,.8,.2,1) forwards;
     position: relative;
@@ -112,8 +115,8 @@ const Logo = () => {
 
   .logo-shell::before {
     content: "";
-    width: var(--ring-size);
-    height: var(--ring-size);
+    width: calc(var(--logo-size) * 1.1);
+    height: calc(var(--logo-size) * 1.1);
     border-radius: 50%;
     border: 1px dashed rgba(0,255,255,0.3);
     position: absolute;
@@ -133,14 +136,14 @@ const Logo = () => {
 
   .pixel {
     background: var(--cyan);
-    border-radius: 2px;
+    border-radius: 1px;
     opacity: 0;
     animation:
       pixelDrop 0.5s ease-out forwards,
       pulse 2.5s ease-in-out infinite;
     box-shadow:
-      0 0 10px var(--cyan),
-      0 0 20px var(--cyan);
+      0 0 5px var(--cyan),
+      0 0 10px var(--cyan);
   }
 
   @keyframes pixelDrop {
@@ -160,13 +163,56 @@ const Logo = () => {
     50% {
       background: var(--dim);
       box-shadow:
-        0 0 5px var(--dim),
-        0 0 10px var(--dim);
+        0 0 3px var(--dim),
+        0 0 6px var(--dim);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; }
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    :root {
+      --pixel: clamp(8px, 3vw, 16px);
+    }
+    
+    .logo-shell {
+      gap: max(6px, calc(var(--pixel) * 1.2));
+    }
+    
+    .pixel {
+      box-shadow:
+        0 0 3px var(--cyan),
+        0 0 6px var(--cyan);
+    }
+  }
+
+  /* Small mobile optimization */
+  @media (max-width: 480px) {
+    .logo-shell {
+      gap: max(4px, calc(var(--pixel) * 1.2));
+      border-width: 0.5px;
+      min-width: 160px;
+      min-height: 160px;
+    }
+    
+    .ak-wrapper {
+      padding: min(3vw, 15px);
+    }
+  }
+
+  /* Landscape mode optimization */
+  @media (max-height: 600px) and (orientation: landscape) {
+    :root {
+      --logo-size: min(70vh, 280px);
+      --ring-size: min(80vh, 320px);
+    }
+    
+    .ak-wrapper {
+      padding: min(2vh, 10px);
+    }
   }
   `;
 
