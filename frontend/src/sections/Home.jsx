@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import IntroAnimation from "../components/IntroAnimation.jsx";
 import ParticlesBG from "../components/ParticlesBG.jsx";
+import Logo from "../components/Logo.jsx";
 import SplineScene from "../components/SplineScene";
 
 const Home = () => {
