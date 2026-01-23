@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import Logo from "./Logo";
 
 const IntroAnimation = ({ onFinish }) => {
   const greetings = useMemo(
@@ -22,7 +23,19 @@ const IntroAnimation = ({ onFinish }) => {
   const [phase, setPhase] = useState("visible");
   const [showFinal, setShowFinal] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [glitchActive, setGlitchActive] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  // Random glitch trigger
+  useEffect(() => {
+    const glitchInterval = setInterval(() => {
+      if (Math.random() > 0.7) {
+        setGlitchActive(true);
+        setTimeout(() => setGlitchActive(false), 150);
+      }
+    }, 2000);
+    return () => clearInterval(glitchInterval);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -73,8 +86,8 @@ const IntroAnimation = ({ onFinish }) => {
     if (showFinal) {
       const timer = setTimeout(() => {
         setIsExiting(true);
-        setTimeout(() => onFinish?.(), 800);
-      }, 1800);
+        setTimeout(() => onFinish?.(), 1000);
+      }, 2200);
       return () => clearTimeout(timer);
     }
   }, [showFinal, onFinish]);
@@ -87,200 +100,439 @@ const IntroAnimation = ({ onFinish }) => {
     return `${base} opacity-100 translate-y-0 scale-100`;
   }, [phase]);
 
+  // Generate pixel grid background
+  const PixelGrid = () => (
+    <div className="absolute inset-0 opacity-[0.03]">
+      <div
+        className="w-full h-full"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
+    </div>
+  );
+
+  // Scanlines overlay matching the logo
+  const Scanlines = () => (
+    <div
+      className="absolute inset-0 pointer-events-none z-50"
+      style={{
+        background: `repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        )`,
+      }}
+    />
+  );
+
+  // Floating pixel particles
+  const FloatingPixels = () => {
+    const pixels = useMemo(() => 
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.random() * 4 + 2,
+        duration: Math.random() * 10 + 10,
+        delay: Math.random() * 5,
+      })), []
+    );
+
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {pixels.map((pixel) => (
+          <div
+            key={pixel.id}
+            className="absolute rounded-sm"
+            style={{
+              left: `${pixel.left}%`,
+              top: `${pixel.top}%`,
+              width: `${pixel.size}px`,
+              height: `${pixel.size}px`,
+              backgroundColor: "#00ffff",
+              boxShadow: "0 0 10px #00ffff, 0 0 20px #00ffff",
+              opacity: 0.3,
+              animation: `floatPixel ${pixel.duration}s ease-in-out infinite`,
+              animationDelay: `${pixel.delay}s`,
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  // Progress bar with pixel blocks
+  const PixelProgressBar = ({ progress }) => {
+    const totalBlocks = 10;
+    const filledBlocks = Math.ceil((progress / 100) * totalBlocks);
+
+    return (
+      <div className="flex gap-1 mt-10 sm:mt-16">
+        {Array.from({ length: totalBlocks }, (_, i) => (
+          <div
+            key={i}
+            className="w-3 h-3 sm:w-4 sm:h-4 transition-all duration-200"
+            style={{
+              backgroundColor: i < filledBlocks ? "#00ffff" : "#0a1a1a",
+              boxShadow: i < filledBlocks 
+                ? "0 0 10px #00ffff, 0 0 20px #00ffff, inset 0 0 5px rgba(255,255,255,0.3)" 
+                : "inset 0 0 5px rgba(0,255,255,0.1)",
+              border: "1px solid rgba(0,255,255,0.3)",
+              transform: i < filledBlocks ? "scale(1.1)" : "scale(1)",
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  // Corner decorations
+  const CornerDecor = ({ position }) => {
+    const posStyles = {
+      topLeft: { top: 20, left: 20, rotate: "0deg" },
+      topRight: { top: 20, right: 20, rotate: "90deg" },
+      bottomLeft: { bottom: 20, left: 20, rotate: "-90deg" },
+      bottomRight: { bottom: 20, right: 20, rotate: "180deg" },
+    };
+
+    return (
+      <div
+        className="absolute w-8 h-8 sm:w-12 sm:h-12 opacity-40"
+        style={{
+          ...posStyles[position],
+          transform: `rotate(${posStyles[position].rotate})`,
+        }}
+      >
+        <div
+          className="absolute top-0 left-0 w-full h-[2px]"
+          style={{
+            background: "linear-gradient(90deg, #00ffff, transparent)",
+            boxShadow: "0 0 10px #00ffff",
+          }}
+        />
+        <div
+          className="absolute top-0 left-0 h-full w-[2px]"
+          style={{
+            background: "linear-gradient(180deg, #00ffff, transparent)",
+            boxShadow: "0 0 10px #00ffff",
+          }}
+        />
+      </div>
+    );
+  };
+
   return (
     <div
       className={`fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden
         transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
-        ${isExiting ? "opacity-0 scale-105" : "opacity-100 scale-100"}`}
-      style={{ backgroundColor: "#000508" }}
+        ${isExiting ? "opacity-0 scale-110" : "opacity-100 scale-100"}`}
+      style={{ backgroundColor: "#080808" }}
     >
+      {/* Scanlines - matches logo */}
+      <Scanlines />
+
+      {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Pixel grid */}
+        <PixelGrid />
+
+        {/* Mouse-following glow */}
         <div
-          className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[600px] md:h-[600px] rounded-full transition-all duration-1000 ease-out"
+          className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] rounded-full transition-all duration-700 ease-out"
           style={{
             left: `${mousePos.x}%`,
             top: `${mousePos.y}%`,
             transform: "translate(-50%, -50%)",
-            background:
-              "radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(0,255,255,0.08) 0%, transparent 60%)",
             filter: "blur(60px)",
           }}
         />
 
+        {/* Static glow orbs */}
         <div
-          className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] rounded-full"
+          className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full"
           style={{
-            left: "15%",
-            top: "25%",
-            background:
-              "radial-gradient(circle, rgba(8,145,178,0.1) 0%, transparent 60%)",
-            filter: "blur(40px)",
-            animation: "drift 15s ease-in-out infinite",
+            left: "10%",
+            top: "20%",
+            background: "radial-gradient(circle, rgba(0,255,255,0.06) 0%, transparent 60%)",
+            filter: "blur(80px)",
+            animation: "pulse 4s ease-in-out infinite",
           }}
         />
-        
         <div
-          className="absolute w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] md:w-[350px] md:h-[350px] rounded-full"
+          className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] rounded-full"
           style={{
-            right: "15%",
-            bottom: "25%",
-            background:
-              "radial-gradient(circle, rgba(14,116,144,0.1) 0%, transparent 60%)",
-            filter: "blur(40px)",
-            animation: "drift 18s ease-in-out infinite reverse",
-          }}
-        />
-
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            right: "10%",
+            bottom: "20%",
+            background: "radial-gradient(circle, rgba(0,143,143,0.08) 0%, transparent 60%)",
+            filter: "blur(80px)",
+            animation: "pulse 5s ease-in-out infinite reverse",
           }}
         />
 
+        {/* Floating pixels */}
+        <FloatingPixels />
+
+        {/* Center vignette */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 0%, #000508 80%)",
+            background: "radial-gradient(ellipse at center, transparent 0%, #080808 75%)",
           }}
         />
       </div>
 
+      {/* Corner decorations */}
+      <CornerDecor position="topLeft" />
+      <CornerDecor position="topRight" />
+      <CornerDecor position="bottomLeft" />
+      <CornerDecor position="bottomRight" />
+
+      {/* Main content */}
       <div className="relative z-10 flex flex-col items-center px-4 w-full">
         {!showFinal ? (
           <div className="flex flex-col items-center w-full">
+            {/* Greeting text with glitch effect */}
             <div className={getTextClasses()}>
               <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold 
-                  text-cyan-50 tracking-[-0.02em] text-center"
+                className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold 
+                  tracking-[-0.02em] text-center relative
+                  ${glitchActive ? "animate-glitch" : ""}`}
                 style={{
-                  fontFamily: "system-ui, -apple-system, sans-serif",
-                  textShadow: "0 0 60px rgba(6,182,212,0.4)",
+                  fontFamily: "'Courier New', Courier, monospace",
+                  color: "#00ffff",
+                  textShadow: `
+                    0 0 10px #00ffff,
+                    0 0 20px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 80px rgba(0,255,255,0.5)
+                  `,
                 }}
               >
+                {/* Glitch layers */}
+                <span
+                  className="absolute inset-0 opacity-0"
+                  style={{
+                    color: "#ff00ff",
+                    animation: glitchActive ? "glitchLayer1 0.15s steps(2) infinite" : "none",
+                  }}
+                >
+                  {greetings[currentIndex].text}
+                </span>
+                <span
+                  className="absolute inset-0 opacity-0"
+                  style={{
+                    color: "#00ff00",
+                    animation: glitchActive ? "glitchLayer2 0.15s steps(2) infinite" : "none",
+                  }}
+                >
+                  {greetings[currentIndex].text}
+                </span>
                 {greetings[currentIndex].text}
               </h1>
             </div>
 
+            {/* Language label */}
             <div
               className={`mt-4 sm:mt-6 transition-all duration-200 ease-out ${
                 phase === "exiting"
                   ? "opacity-0 translate-y-1"
-                  : "opacity-40 translate-y-0"
+                  : "opacity-60 translate-y-0"
               }`}
             >
               <span
-                className="text-[10px] sm:text-xs md:text-sm text-cyan-200/80 tracking-[0.25em] uppercase"
-                style={{ fontFamily: "monospace" }}
+                className="text-[10px] sm:text-xs md:text-sm tracking-[0.3em] uppercase px-4 py-1 border"
+                style={{
+                  fontFamily: "'Courier New', Courier, monospace",
+                  color: "#00ffff",
+                  borderColor: "rgba(0,255,255,0.3)",
+                  textShadow: "0 0 10px #00ffff",
+                  boxShadow: "0 0 10px rgba(0,255,255,0.1), inset 0 0 10px rgba(0,255,255,0.05)",
+                }}
               >
-                {greetings[currentIndex].lang}
+                [{greetings[currentIndex].lang}]
               </span>
             </div>
 
-            <div className="mt-10 sm:mt-16 w-32 sm:w-48 h-px bg-cyan-950/50 relative overflow-hidden rounded-full">
-              <div
-                className="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 transition-all duration-300 ease-out rounded-full"
-                style={{
-                  width: `${((currentIndex + 1) / greetings.length) * 100}%`,
-                }}
-              />
+            {/* Pixel progress bar */}
+            <PixelProgressBar
+              progress={((currentIndex + 1) / greetings.length) * 100}
+            />
+
+            {/* Loading text */}
+            <div
+              className="mt-6 text-xs tracking-[0.2em] uppercase opacity-40"
+              style={{
+                fontFamily: "'Courier New', Courier, monospace",
+                color: "#00ffff",
+              }}
+            >
+              <span className="animate-pulse">INITIALIZING</span>
+              <span className="inline-block w-8 text-left">
+                {Array.from({ length: (currentIndex % 3) + 1 }, () => ".").join("")}
+              </span>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center">
+          <div 
+            className="flex flex-col items-center"
+            style={{
+              animation: "logoReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+            }}
+          >
+            {/* Optional: System ready text above logo */}
             <div
-              className="mb-6 sm:mb-10 relative"
+              className="mb-8 text-xs tracking-[0.3em] uppercase opacity-0"
               style={{
-                animation: "scaleUp 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards",
+                fontFamily: "'Courier New', Courier, monospace",
+                color: "#00ffff",
+                textShadow: "0 0 10px #00ffff",
+                animation: "fadeIn 0.5s ease-out 0.3s forwards",
               }}
             >
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-[1px]">
-                <div className="w-full h-full rounded-xl sm:rounded-2xl bg-[#000508] flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-cyan-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 opacity-40 blur-xl -z-10" />
+              SYSTEM READY
             </div>
-
-            <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-cyan-50 
-                tracking-[-0.02em] opacity-0 text-center"
-              style={{
-                fontFamily: "system-ui, -apple-system, sans-serif",
-                animation: "fadeUp 0.6s ease-out 0.15s forwards",
-              }}
-            >
-              Welcome
-            </h1>
-
-            <p
-              className="mt-3 sm:mt-5 text-cyan-400/60 text-xs sm:text-sm md:text-base tracking-[0.15em] uppercase 
-                font-light opacity-0"
-              style={{
-                fontFamily: "monospace",
-                animation: "fadeUp 0.6s ease-out 0.3s forwards",
-              }}
-            >
-              Portfolio
-            </p>
-
-            <div
-              className="mt-8 sm:mt-14 flex items-center gap-2 opacity-0"
-              style={{ animation: "fadeUp 0.6s ease-out 0.45s forwards" }}
-            >
-              <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent to-cyan-800/50" />
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              <div className="w-6 sm:w-8 h-px bg-gradient-to-l from-transparent to-cyan-800/50" />
-            </div>
+            <Logo />
           </div>
         )}
       </div>
 
-      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 w-8 h-8 sm:w-12 sm:h-12">
-        <div className="absolute top-0 left-0 w-4 sm:w-6 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
-        <div className="absolute top-0 left-0 w-px h-4 sm:h-6 bg-gradient-to-b from-cyan-500/30 to-transparent" />
+      {/* Decorative lines */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 opacity-30">
+        <div
+          className="w-16 sm:w-24 h-[1px]"
+          style={{
+            background: "linear-gradient(90deg, transparent, #00ffff)",
+            boxShadow: "0 0 10px #00ffff",
+          }}
+        />
+        <div
+          className="w-2 h-2 rotate-45"
+          style={{
+            backgroundColor: "#00ffff",
+            boxShadow: "0 0 10px #00ffff",
+          }}
+        />
+        <div
+          className="w-16 sm:w-24 h-[1px]"
+          style={{
+            background: "linear-gradient(90deg, #00ffff, transparent)",
+            boxShadow: "0 0 10px #00ffff",
+          }}
+        />
       </div>
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-12 sm:h-12">
-        <div className="absolute top-0 right-0 w-4 sm:w-6 h-px bg-gradient-to-l from-cyan-500/30 to-transparent" />
-        <div className="absolute top-0 right-0 w-px h-4 sm:h-6 bg-gradient-to-b from-cyan-500/30 to-transparent" />
-      </div>
-      <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 w-8 h-8 sm:w-12 sm:h-12">
-        <div className="absolute bottom-0 left-0 w-4 sm:w-6 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-px h-4 sm:h-6 bg-gradient-to-t from-cyan-500/30 to-transparent" />
-      </div>
-      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 w-8 h-8 sm:w-12 sm:h-12">
-        <div className="absolute bottom-0 right-0 w-4 sm:w-6 h-px bg-gradient-to-l from-cyan-500/30 to-transparent" />
-        <div className="absolute bottom-0 right-0 w-px h-4 sm:h-6 bg-gradient-to-t from-cyan-500/30 to-transparent" />
+
+      {/* Version/Tech text */}
+      <div
+        className="absolute bottom-4 right-4 text-[10px] tracking-widest uppercase opacity-20"
+        style={{
+          fontFamily: "'Courier New', Courier, monospace",
+          color: "#00ffff",
+        }}
+      >
+        v2.0.24
       </div>
 
       <style>{`
-        @keyframes drift {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(20px, -20px); }
+        @keyframes floatPixel {
+          0%, 100% { 
+            transform: translateY(0) rotate(0deg); 
+            opacity: 0.2;
+          }
+          25% { 
+            opacity: 0.5;
+          }
+          50% { 
+            transform: translateY(-30px) rotate(180deg); 
+            opacity: 0.3;
+          }
+          75% { 
+            opacity: 0.4;
+          }
         }
-        
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+
+        @keyframes pulse {
+          0%, 100% { 
+            opacity: 0.5; 
+            transform: scale(1); 
+          }
+          50% { 
+            opacity: 0.8; 
+            transform: scale(1.1); 
+          }
         }
-        
-        @keyframes scaleUp {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
+
+        @keyframes glitchLayer1 {
+          0% { 
+            opacity: 0.8; 
+            transform: translate(-3px, -2px); 
+          }
+          50% { 
+            opacity: 0; 
+            transform: translate(3px, 2px); 
+          }
+          100% { 
+            opacity: 0.8; 
+            transform: translate(-2px, 3px); 
+          }
+        }
+
+        @keyframes glitchLayer2 {
+          0% { 
+            opacity: 0.8; 
+            transform: translate(3px, 2px); 
+          }
+          50% { 
+            opacity: 0; 
+            transform: translate(-3px, -2px); 
+          }
+          100% { 
+            opacity: 0.8; 
+            transform: translate(2px, -3px); 
+          }
+        }
+
+        .animate-glitch {
+          animation: mainGlitch 0.15s steps(2) infinite;
+        }
+
+        @keyframes mainGlitch {
+          0% { transform: translate(0); }
+          20% { transform: translate(-2px, 2px); }
+          40% { transform: translate(-2px, -2px); }
+          60% { transform: translate(2px, 2px); }
+          80% { transform: translate(2px, -2px); }
+          100% { transform: translate(0); }
+        }
+
+        @keyframes logoReveal {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.8) translateY(20px);
+            filter: blur(10px);
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 0.6; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
         }
       `}</style>
     </div>

@@ -14,6 +14,8 @@ const Home = () => {
   ];
 
   const [roleIndex, setRoleIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
 
@@ -36,12 +38,38 @@ const Home = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Typewriter effect
   useEffect(() => {
-    const interval = setInterval(() => {
+    const currentRole = roles[roleIndex];
+    const typeSpeed = 100; // Speed of typing
+    const deleteSpeed = 50; // Speed of deleting
+    const pauseTime = 2000; // Pause before deleting
+
+    let timeout;
+
+    if (!isDeleting && displayedText === currentRole) {
+      // Finished typing, wait then start deleting
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, pauseTime);
+    } else if (isDeleting && displayedText === "") {
+      // Finished deleting, move to next role
+      setIsDeleting(false);
       setRoleIndex((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    } else if (isDeleting) {
+      // Currently deleting
+      timeout = setTimeout(() => {
+        setDisplayedText(currentRole.substring(0, displayedText.length - 1));
+      }, deleteSpeed);
+    } else {
+      // Currently typing
+      timeout = setTimeout(() => {
+        setDisplayedText(currentRole.substring(0, displayedText.length + 1));
+      }, typeSpeed);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, isDeleting, roleIndex, roles]);
 
   const socials = [
     {
@@ -90,7 +118,7 @@ const Home = () => {
       id="home"
       className="relative w-screen min-h-screen overflow-hidden bg-black"
     >
-      {/* Background */}
+
       <div className="absolute inset-0 z-0 pointer-events-none">
         <IntroAnimation />
         <ParticlesBG />
@@ -121,7 +149,7 @@ const Home = () => {
         </h1>
       </motion.div>
 
-      {/* Vertical Line Accent - Desktop Only */}
+
       <motion.div 
         className="hidden lg:block absolute left-[10%] top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent z-[5]"
         initial={{ scaleY: 0 }}
@@ -223,7 +251,7 @@ const Home = () => {
               </motion.div>
             </div>
 
-            {/* Role Switcher */}
+            {/* Role Switcher - Typewriter Effect */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -231,21 +259,19 @@ const Home = () => {
               className="flex items-center gap-4 mb-8"
             >
               <div className="w-8 h-[1px] bg-white/20" />
-              <div className="h-7 overflow-hidden">
-                <motion.div
-                  animate={{ y: -roleIndex * 28 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+              <div className="h-7 relative flex items-center">
+                <span 
+                  className="text-sm md:text-base text-white/60 tracking-wider"
+                  style={{ fontFamily: "Orbitron" }}
                 >
-                  {roles.map((role, i) => (
-                    <p 
-                      key={i}
-                      className="text-sm md:text-base text-white/50 h-7 flex items-center tracking-wide"
-                      style={{ fontFamily: "Orbitron" }}
-                    >
-                      {role}
-                    </p>
-                  ))}
-                </motion.div>
+                  {displayedText}
+                </span>
+                {/* Blinking Cursor */}
+                <motion.span
+                  className="inline-block w-[2px] h-5 bg-cyan-400 ml-1"
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }}
+                />
               </div>
             </motion.div>
 
