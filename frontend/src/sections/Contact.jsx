@@ -1,51 +1,45 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ParticlesBG from "../components/ParticlesBG";
 import cimg from "../assets/contact.avif";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
   const [status, setStatus] = useState("");
+  const form = useRef();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create FormData
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("message", form.message);
-
-    const res = await fetch("https://formspree.io/f/mkgklgwl", {
-      method: "POST",
-      body: formData, 
-    });
-
-    if (res.ok) {
-      setStatus("Message sent successfully!");
-      setForm({ name: "", email: "", message: "" });
-    } else {
-      setStatus("Failed to send message.");
-    }
+    emailjs
+      .sendForm(
+        "service_tg2a2lg", 
+        "template_aih0y7x", 
+        form.current,
+        "9EjP7QUopLaFF3zvc" 
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setStatus("Message sent successfully!");
+          e.target.reset(); 
+        },
+        (error) => {
+          console.log(error.text);
+          setStatus("Failed to send message.");
+        }
+      );
   };
 
   return (
     <div className="relative">
+      {/* Background Particles */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <ParticlesBG />
       </div>
 
       <div className="min-h-screen bg-gray/10 flex items-center justify-center p-6">
         <div className="bg-white/10 shadow-lg rounded-lg overflow-hidden w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2">
-
+          {/* Left Image */}
           <div className="hidden lg:block">
             <img
               src={cimg}
@@ -54,23 +48,22 @@ export default function Contact() {
             />
           </div>
 
+          {/* Contact Form */}
           <div className="p-8 bg-white">
             <h2 className="text-3xl font-bold mb-4">Contact Me</h2>
 
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form ref={form} className="space-y-5" onSubmit={handleSubmit}>
               <input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
+                type="text"
+                name="user_name"
                 placeholder="Enter your name:"
                 required
                 className="w-full px-4 py-2 rounded-lg border text-black"
               />
 
               <input
-                name="email"
-                value={form.email}
-                onChange={handleChange}
+                type="email"
+                name="user_email"
                 placeholder="Enter your email address:"
                 required
                 className="w-full px-4 py-2 rounded-lg border text-black"
@@ -79,8 +72,6 @@ export default function Contact() {
               <textarea
                 name="message"
                 rows="5"
-                value={form.message}
-                onChange={handleChange}
                 placeholder="Start typing your message here..."
                 required
                 className="w-full px-4 py-2 rounded-lg border text-black"

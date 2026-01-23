@@ -20,8 +20,8 @@ export default function CustomCursor() {
     window.addEventListener("mousemove", move);
 
     const animate = () => {
-      pos.current.x += (mouse.current.x - pos.current.x) * 0.2;
-      pos.current.y += (mouse.current.y - pos.current.y) * 0.2;
+      pos.current.x += (mouse.current.x - pos.current.x) * 0.8;
+      pos.current.y += (mouse.current.y - pos.current.y) * 0.8;
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `
