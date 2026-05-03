@@ -10,6 +10,7 @@ import CustomCursor from './components/CustomCursor.jsx';
 import Footer from './components/Footer.jsx';
 
 import IntroAnimation from './components/IntroAnimation.jsx'; 
+import ScrollProgress from './components/ScrollProgress.jsx';
 
 function App() {
   const [introDone, setIntroDone] = useState(false);
@@ -20,6 +21,7 @@ function App() {
       {!introDone && (
         <IntroAnimation onFinish={() => setIntroDone(true)} />
       )}
+      <ScrollProgress></ScrollProgress>
 
       <div
         className={`transition-opacity duration-1000 ${
@@ -30,6 +32,7 @@ function App() {
         <Navbar />
         <Home />
         <About />
+        <Skills />
         <Contact />
         <Footer />
       </div>

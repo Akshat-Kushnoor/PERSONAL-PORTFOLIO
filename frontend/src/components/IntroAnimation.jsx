@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import Logo from "./Logo";
+import Logo from "./Logo.jsx";
 
 const IntroAnimation = ({ onFinish }) => {
   const greetings = useMemo(
@@ -399,7 +399,7 @@ const IntroAnimation = ({ onFinish }) => {
             >
               SYSTEM READY
             </div>
-            <Logo />
+            <Logo/> 
           </div>
         )}
       </div>

@@ -6,76 +6,58 @@ const ParticlesBG = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const particles = [];
-    const particleCount = 80;
-    const colors = ["cyan"]; 
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let mouse = { x: null, y: null };
+    const gridSize = 40;
+    const glowRadius = 120;
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 2 + 1;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.speedX = (Math.random() - 0.5) * 1;
-        this.speedY = (Math.random() - 0.5) * 1;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = this.color;
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Wrap around edges
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
-
-        this.draw();
-      }
-    }
-
-    function createParticles() {
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function handleResize() {
+    function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      particles.length = 0; // clear existing
-      createParticles();
     }
 
-    createParticles();
-    window.addEventListener("resize", handleResize);
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
 
-    let animationId;
-    function animate() {
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function drawGrid() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => p.update());
-      animationId = requestAnimationFrame(animate);
+
+      for (let x = 0; x < canvas.width; x += gridSize) {
+        for (let y = 0; y < canvas.height; y += gridSize) {
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          let opacity = 0.1;
+
+          if (distance < glowRadius) {
+            opacity = 1 - distance / glowRadius;
+          }
+
+          ctx.beginPath();
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 255, 255, ${opacity})`;
+          ctx.shadowBlur = distance < glowRadius ? 15 : 0;
+          ctx.shadowColor = "cyan";
+          ctx.fill();
+        }
+      }
+
+      requestAnimationFrame(drawGrid);
     }
 
-    animate();
+    drawGrid();
 
     return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", () => { });
     };
-  }, []); // ✅ dependency array
+  }, []);
 
   return (
     <canvas

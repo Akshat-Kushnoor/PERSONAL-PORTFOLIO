@@ -1,8 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import IntroAnimation from "../components/IntroAnimation.jsx";
 import ParticlesBG from "../components/ParticlesBG.jsx";
-import Logo from "../components/Logo.jsx";
 import SplineScene from "../components/SplineScene";
 
 const Home = () => {
@@ -126,7 +125,7 @@ const Home = () => {
       </div>
 
       {/* Noise Texture Overlay */}
-      <div 
+      <div
         className="absolute inset-0 z-[1] opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -134,13 +133,13 @@ const Home = () => {
       />
 
       {/* Large Background Text - Desktop Only */}
-      <motion.div 
+      <motion.div
         className="hidden lg:block absolute top-1/2 left-0 -translate-y-1/2 z-[2] pointer-events-none select-none"
         style={{ x: smoothMouseX, y: smoothMouseY }}
       >
-        <h1 
+        <h1
           className="text-[20vw] font-bold leading-none tracking-tighter"
-          style={{ 
+          style={{
             fontFamily: "Macondo",
             WebkitTextStroke: "1px rgba(255,255,255,0.03)",
             WebkitTextFillColor: "transparent",
@@ -151,7 +150,7 @@ const Home = () => {
       </motion.div>
 
 
-      <motion.div 
+      <motion.div
         className="hidden lg:block absolute left-[10%] top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent z-[5]"
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
@@ -159,7 +158,7 @@ const Home = () => {
       />
 
       {/* Section Number - Desktop Only */}
-      <motion.div 
+      <motion.div
         className="hidden lg:flex absolute left-[5%] top-1/2 -translate-y-1/2 z-10 flex-col items-center gap-4"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -174,11 +173,11 @@ const Home = () => {
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center">
-        
+
         {/* Left Content */}
         <div className="flex-1 flex items-center px-6 md:px-12 lg:pl-[15%] lg:pr-12 py-24 lg:py-0">
           <div className="max-w-2xl w-full">
-            
+
             {/* Status Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -213,16 +212,16 @@ const Home = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative z-10"
               >
-                <span 
+                <span
                   className="block text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9]"
                   style={{ fontFamily: "Macondo" }}
                 >
                   Akshat
                 </span>
                 <div className="flex items-end gap-4 mt-2">
-                  <span 
+                  <span
                     className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9]"
-                    style={{ 
+                    style={{
                       fontFamily: "Orbitron",
                       background: "linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%)",
                       WebkitBackgroundClip: "text",
@@ -231,7 +230,7 @@ const Home = () => {
                   >
                     Kushnoor
                   </span>
-                  <motion.span 
+                  <motion.span
                     className="hidden md:inline-block text-cyan-400 text-4xl lg:text-5xl mb-2"
                     animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3 }}
@@ -242,7 +241,7 @@ const Home = () => {
               </motion.h1>
 
               {/* Decorative Line */}
-              <motion.div 
+              <motion.div
                 className="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 hidden md:block"
                 initial={{ width: 0 }}
                 animate={{ width: "60px" }}
@@ -261,7 +260,7 @@ const Home = () => {
             >
               <div className="w-8 h-[1px] bg-white/20" />
               <div className="h-7 relative flex items-center">
-                <span 
+                <span
                   className="text-sm md:text-base text-white/60 tracking-wider"
                   style={{ fontFamily: "Orbitron" }}
                 >
@@ -283,8 +282,8 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-white/40 text-sm md:text-base leading-relaxed max-w-md mb-10"
             >
-              I craft digital experiences where aesthetics meet functionality. 
-              Specializing in creating products that leave lasting impressions 
+              I craft digital experiences where aesthetics meet functionality.
+              Specializing in creating products that leave lasting impressions
               through thoughtful design and clean code.
             </motion.p>
 
@@ -307,7 +306,7 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 bg-white"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: 0 }}
@@ -316,7 +315,7 @@ const Home = () => {
               </motion.a>
 
               <motion.a
-                href="/resume.pdf"
+                href="https://drive.google.com/file/d/1LbotUiq5YJfczV-Afjju4vIfRwIqlEHy/view?usp=sharing"
                 target="_blank"
                 className="group px-7 py-3.5 border border-white/10 text-white/60 text-sm font-medium rounded-full hover:border-cyan-400/50 hover:text-white transition-all duration-300 flex items-center gap-2"
                 whileHover={{ scale: 1.02 }}
@@ -370,11 +369,11 @@ const Home = () => {
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
-          
+
           <SplineScene />
 
           {/* Floating Info Cards - Desktop Only */}
-          <motion.div 
+          <motion.div
             className="absolute top-[20%] right-[10%] z-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -387,7 +386,7 @@ const Home = () => {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="absolute bottom-[25%] right-[15%] z-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -410,8 +409,8 @@ const Home = () => {
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
           {[...Array(4)].map((_, i) => (
-            <span 
-              key={i} 
+            <span
+              key={i}
               className="text-[10px] text-white/[0.07] tracking-[0.5em] uppercase mx-4"
               style={{ fontFamily: "Orbitron" }}
             >
@@ -438,7 +437,7 @@ const Home = () => {
             animate={{ y: [0, 5, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <motion.div 
+            <motion.div
               className="w-1 h-1 bg-white/50 rounded-full"
               animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -448,7 +447,7 @@ const Home = () => {
       </motion.div>
 
       {/* Corner Accent - Desktop Only */}
-      <motion.div 
+      <motion.div
         className="hidden lg:block absolute top-8 right-8 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -461,12 +460,12 @@ const Home = () => {
       </motion.div>
 
       {/* Ambient Glows */}
-      <motion.div 
+      <motion.div
         className="hidden lg:block absolute top-1/4 right-1/3 w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[150px] pointer-events-none"
         animate={{ scale: [1, 1.2, 1], opacity: [0.03, 0.05, 0.03] }}
         transition={{ duration: 10, repeat: Infinity }}
       />
-      <motion.div 
+      <motion.div
         className="hidden lg:block absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/[0.02] blur-[120px] pointer-events-none"
         animate={{ scale: [1.2, 1, 1.2], opacity: [0.02, 0.04, 0.02] }}
         transition={{ duration: 12, repeat: Infinity }}
