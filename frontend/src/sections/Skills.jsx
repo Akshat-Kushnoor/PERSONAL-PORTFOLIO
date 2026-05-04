@@ -553,7 +553,7 @@ const Skills = () => {
     {
       category: 'Languages',
       icon: <FaCode />,
-      color: '#F7DF1E',
+      color: '#2496ED',
       skills: [
         { name: 'JavaScript', icon: <SiJavascript />, level: 95, color: '#F7DF1E' },
         { name: 'TypeScript', icon: <SiTypescript />, level: 90, color: '#3178C6' },
@@ -600,7 +600,7 @@ const Skills = () => {
     {
       category: 'DevOps',
       icon: <FaTools />,
-      color: '#2496ED',
+      color: '#F7DF1E',
       skills: [
         { name: 'Git', icon: <SiGit />, level: 92, color: '#F05032' },
         { name: 'GitHub', icon: <SiGithub />, level: 90, color: '#aaaaaa' },
@@ -1151,7 +1151,7 @@ const Skills = () => {
                 {stat.label}
               </p>
 
-              {/* Corner accent */}
+           
               <div
                 className="absolute top-0 right-0 w-20 h-20 opacity-10 pointer-events-none"
                 style={{
@@ -1159,7 +1159,7 @@ const Skills = () => {
                 }}
               />
 
-              {/* Animated border pulse */}
+             
               <motion.div
                 className="absolute inset-0 rounded-2xl"
                 style={{ border: `2px solid ${stat.color}` }}

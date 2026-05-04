@@ -315,7 +315,7 @@ const Home = () => {
               </motion.a>
 
               <motion.a
-                href="https://drive.google.com/file/d/1LbotUiq5YJfczV-Afjju4vIfRwIqlEHy/view?usp=sharing"
+                href="https://drive.google.com/file/d/1LbotUiq5YJfczV-Afjju4vIfRwIqlEHy/view"
                 target="_blank"
                 className="group px-7 py-3.5 border border-white/10 text-white/60 text-sm font-medium rounded-full hover:border-cyan-400/50 hover:text-white transition-all duration-300 flex items-center gap-2"
                 whileHover={{ scale: 1.02 }}
