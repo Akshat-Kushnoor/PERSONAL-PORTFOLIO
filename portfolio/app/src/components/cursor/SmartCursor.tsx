@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { animate } from "motion";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cursorStore } from "./cursor-store";
 import { useCursor } from "./useCursor";
 
@@ -17,6 +17,12 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
   scrollMorphIntensity = 1.5,
   enableScrollMorph = true,
 }) => {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Initialize mouse & scroll listeners
   useCursor();
   
@@ -24,8 +30,8 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
   const innerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
-  useEffect( () => {
-    if (!cursorRef.current || !innerRef.current || !textRef.current) return;
+  useEffect(() => {
+    if (!mounted || !cursorRef.current || !innerRef.current || !textRef.current) return;
 
     // Use quickTo for high performance 60fps tracking
     const xTo = gsap.quickTo(cursorRef.current, "x", { duration: 0.5, ease: "power3.out" });
@@ -102,7 +108,9 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
     });
 
     return () => unsubscribe();
-  }, [defaultHoverScale, enableScrollMorph, scrollMorphIntensity]);
+  }, [mounted, defaultHoverScale, enableScrollMorph, scrollMorphIntensity]);
+
+  if (!mounted) return null;
 
   return (
     <div

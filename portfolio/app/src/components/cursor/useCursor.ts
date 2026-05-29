@@ -23,11 +23,11 @@ export const useCursor = () => {
 
       const hoverable = target.closest("[data-cursor-hover], button, a, [data-cursor-text], [data-cursor-hide]");
       if (hoverable) {
+        const isHidden = hoverable.hasAttribute("data-cursor-hide") || hoverable.getAttribute("data-cursor-hide") === "true";
         const text = hoverable.getAttribute("data-cursor-text") || 
                      (hoverable.hasAttribute("data-cursor-hover") ? "Open" : null);
         const clickText = hoverable.getAttribute("data-cursor-click");
         const scale = parseFloat(hoverable.getAttribute("data-cursor-scale") || "2");
-        const isHidden = hoverable.hasAttribute("data-cursor-hide");
 
         cursorStore.setState({
           isHovering: true,
