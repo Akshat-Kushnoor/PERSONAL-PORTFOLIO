@@ -65,15 +65,27 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
       });
 
       if (currentVisualState !== lastVisualState) {
+        // Text Logic
+        const displayTarget = isClicked ? (clickText || hoverText) : hoverText;
+
+        if (cursorRef.current) {
+          cursorRef.current.style.mixBlendMode = isHovering ? "normal" : "difference";
+        }
+
         // Morphing Logic
-        const scale = isClicked ? 0.8 : (isHovering ? (hoverScale || defaultHoverScale) : 1);
+        // Disable default scale when text is present to keep pill shape clean
+        const scale = isClicked ? 0.8 : (isHovering && !displayTarget ? (hoverScale || defaultHoverScale) : 1);
         const opacity = isHidden ? 0 : (isHovering ? 1 : 0.9);
         
-        let width = 20;
-        let height = 20;
+        let width: string | number = 20;
+        let height: string | number = 20;
         let borderRadius = "100%";
 
-        if (enableScrollMorph && scrollVelocity > 2) {
+        if (displayTarget) {
+          width = "auto";
+          height = 32;
+          borderRadius = "16px";
+        } else if (enableScrollMorph && scrollVelocity > 2) {
           const stretch = Math.min(scrollVelocity * scrollMorphIntensity, 20);
           height = 10 + stretch;
           width = 10 - Math.min(stretch * 0.2, 10);
@@ -84,7 +96,7 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
         // White cursor on black background = White
         // White cursor on white background = Black (Inverted)
         animate(innerRef.current!, {
-          width: `${ width }px`,
+          width: width === "auto" ? "auto" : `${width}px`,
           height: `${height}px`,
           scale: scale,
           opacity: opacity,
@@ -94,8 +106,6 @@ const SmartCursor: React.FC<SmartCursorProps> = ({
           ease: "easeOut",
         });
 
-        // Text Logic
-        const displayTarget = isClicked ? (clickText || hoverText) : hoverText;
         if (displayTarget) {
           textRef.current!.innerText = displayTarget;
           animate(textRef.current!, { opacity: 1, scale: 1 }, { duration: 0.2 });
