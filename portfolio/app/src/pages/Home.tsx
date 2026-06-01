@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { animate, motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import SplineScene from "../components/bg/SplineScene";
 import { PairButton, PairButtonGroup, SoloButton } from "../components/buttons";
 import rolesData from "../data/roles.json";
@@ -67,10 +66,11 @@ const BorderBeam = ({ duration = 8, delay = 0, size = 0.08, count = 1 }) => {
 };
 
 const DotLoader = () => {
-// ... rest remains same
+//
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      <div className="relative w-40 h-24">
+      <div data-cursor-text="Hire Me" 
+      className="relative w-40 h-24">
         {/* Loader 1 - Base (Black) */}
         <motion.div 
           className="absolute top-1/2 left-1/2 bg-white/5 border border-white/10 rounded-[5px]"
@@ -183,7 +183,8 @@ export default function Home() {
         {/* div3: Spline Scene (2 cols x 4 rows) */}
         <div className="hidden lg:block col-span-2 row-span-4 bg-white/[0.02] border border-white/5 rounded-2xl relative overflow-hidden">
           <BorderBeam duration={10} delay={1} count={2} />
-          <div className="absolute inset-0 z-0">
+          <div data-cursor-text="ask queries" className="absolute inset-0 z-0">
+            
             <SplineScene />
           </div>
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20 pointer-events-none" />
