@@ -26,6 +26,11 @@ body {
   cursor: none;
 }
 
+::selection {
+  background-color: white;
+  color: black;
+}
+
 a, button, [role="button"] {
   cursor: none !important;
 }
