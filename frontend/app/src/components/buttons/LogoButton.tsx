@@ -32,21 +32,21 @@ export const LogoButton: React.FC<LogoButtonProps> = ({
         animate(
           panelRef.current,
           { width: "auto", opacity: 1 },
-          { duration: 0.5, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
         );
       }
       if (iconRef.current) {
         animate(
           iconRef.current,
           { opacity: 1, scale: 1 },
-          { duration: 0.4, delay: 0.1, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }
         );
       }
       if (textRef.current) {
         animate(
           textRef.current,
           { x: isLeft ? 4 : -4 },
-          { duration: 0.4, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
         );
       }
     }
@@ -58,7 +58,7 @@ export const LogoButton: React.FC<LogoButtonProps> = ({
         animate(
           panelRef.current,
           { width: "0px", opacity: 0 },
-          { duration: 0.4, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
         );
       }
       if (iconRef.current) {
@@ -72,7 +72,7 @@ export const LogoButton: React.FC<LogoButtonProps> = ({
         animate(
           textRef.current,
           { x: 0 },
-          { duration: 0.4, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
         );
       }
     }

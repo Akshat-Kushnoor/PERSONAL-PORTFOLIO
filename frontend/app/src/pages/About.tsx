@@ -319,9 +319,9 @@ export default function About() {
     theme: "same4",
     motion: {
       // "motion one" vibe: quick, smooth, slightly springy
-      base: { duration: 0.7, easing: [0.22, 1, 0.36, 1] },
+      base: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
       stagger: 0.08,
-      hover: { duration: 0.25, easing: [0.2, 0.8, 0.2, 1] },
+      hover: { duration: 0.25, ease: [0.2, 0.8, 0.2, 1] },
     },
 
     eyebrow: "About",
