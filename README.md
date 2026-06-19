@@ -27,3 +27,4 @@ Hi, I'm Akshat A Kushnoor.
 A MERN Stack Developer passionate about building scalable,
 high-performance, and user-focused web applications.
 I enjoy clean architecture, modern UI/UX, and backend optimization.
+R
