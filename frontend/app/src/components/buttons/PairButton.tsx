@@ -30,7 +30,7 @@ export const PairButton: React.FC<PairButtonProps> = ({
       animate(
         fillRef.current,
         { scaleX: 1, opacity: 1 },
-        { duration: 0.5, easing: [0.22, 1, 0.36, 1] }
+        { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
       );
     }
     if (buttonRef.current) {
@@ -54,7 +54,7 @@ export const PairButton: React.FC<PairButtonProps> = ({
       animate(
         fillRef.current,
         { scaleX: 0, opacity: 0 },
-        { duration: 0.4, easing: [0.22, 1, 0.36, 1] }
+        { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       );
     }
     if (buttonRef.current) {

@@ -36,14 +36,14 @@ export const SoloButton: React.FC<SoloButtonProps> = ({
         animate(
           initialChar,
           { y: direction * -100 + "%", opacity: 0 },
-          { duration: 0.4, delay: i * 0.03, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }
         );
       }
       if (hoverChar) {
         animate(
           hoverChar,
           { y: "0%", opacity: 1 },
-          { duration: 0.4, delay: i * 0.03, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }
         );
       }
     });
@@ -61,14 +61,14 @@ export const SoloButton: React.FC<SoloButtonProps> = ({
         animate(
           initialChar,
           { y: "0%", opacity: 1 },
-          { duration: 0.4, delay: i * 0.03, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }
         );
       }
       if (hoverChar) {
         animate(
           hoverChar,
           { y: direction * 100 + "%", opacity: 0 },
-          { duration: 0.4, delay: i * 0.03, easing: [0.22, 1, 0.36, 1] }
+          { duration: 0.4, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }
         );
       }
     });
